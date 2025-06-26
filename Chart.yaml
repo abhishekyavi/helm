@@ -1,0 +1,4 @@
+apiVersion: v2 
+name: springboot-image-builder
+description: Build s2i image
+version: 0.1.0

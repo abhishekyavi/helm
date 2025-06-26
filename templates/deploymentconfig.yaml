@@ -1,0 +1,37 @@
+
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: "{{ include "springboot-ocdemo.fullname" . }}"
+  labels:
+    {{- include "springboot-ocdemo.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    app: "{{ include "springboot-ocdemo.name" . }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ include "springboot-ocdemo.name" . }}"
+    spec:
+      containers:
+        - name: "{{ include "springboot-ocdemo.name" . }}"
+          image: "{{ include "springboot-ocdemo.fullname" . }}:latest"
+          imagePullPolicy: "{{ .Values.image.pullPolicy | default "IfNotPresent" }}"
+          ports:
+            - containerPort: {{ .Values.service.port | default 8080 }}
+      {{- if .Values.resources }}
+      resources:
+        {{- toYaml .Values.resources | nindent 12 }}
+      {{- end }}
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - "{{ include "springboot-ocdemo.name" . }}"
+        from:
+          kind: ImageStreamTag
+          name: "{{ include "springboot-ocdemo.fullname" . }}:latest"
+

@@ -1,0 +1,50 @@
+build:
+  enabled: true
+  git:
+    uri: https://github.com/abhishekyavi/springbootOcdemo.git
+    ref: master
+  strategy: Source
+  outputImageStream: springbootoc-springboot-image-builder:latest
+
+deployment:
+  enabled: true
+  image-stream:
+    name: springboot-ocdemo
+    tag: latest
+    
+
+service:
+  name: springboot-ocdemo
+  type: ClusterIP
+  port: 8080
+
+route:
+  enabled: true
+  host: springboot-ocdemo.apps.your-openshift-domain.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 5
+
+image:
+  pullPolicy: IfNotPresent
+  repository: ""
+  tag: ""
