@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
         - name: "{{ include "springboot-ocdemo.name" . }}"
-          image: "image-registry.openshift-image-registry.svc:5000/{{ .Release.Namespace }}/{{ include "springboot-ocdemo.fullname" . }}:latest"
-          imagePullPolicy: "{{ .Values.image.pullPolicy | default "Always" }}"
+          image: "{{ include "springboot-ocdemo.fullname" . }}:latest"
+          imagePullPolicy: "{{ .Values.image.pullPolicy | default "IfNotPresent" }}"
           ports:
             - containerPort: {{ .Values.service.port | default 8080 }}
           {{- if .Values.resources }}

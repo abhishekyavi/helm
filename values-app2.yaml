@@ -1,0 +1,58 @@
+build:
+  enabled: true
+  git:
+    uri: https://github.com/abhishekyavi/clinicalsapi.git
+    ref: main
+  strategy: Source
+  outputImageStream: springbootoc2-springboot-image-builder:latest
+
+deployment:
+  enabled: true
+  image-stream:
+    name: springboot-app2
+    tag: latest
+
+service:
+  name: springboot-app2
+  type: ClusterIP
+  port: 8080
+
+route:
+  enabled: true
+  host: springboot-app2.apps.your-openshift-domain.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 5
+
+image:
+  pullPolicy: IfNotPresent
+  repository: ""
+  tag: ""
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+replicaCount: 1

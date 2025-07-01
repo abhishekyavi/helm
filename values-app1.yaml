@@ -1,22 +1,16 @@
-# Application configuration
-app:
-  name: springboot-ocdemo
-  version: v1
-
 build:
   enabled: true
   git:
     uri: https://github.com/abhishekyavi/springbootOcdemo.git
     ref: master
   strategy: Source
-  outputImageStream: springboot-image-builder:latest
+  outputImageStream: springbootoc-springboot-image-builder:latest
 
 deployment:
   enabled: true
   image-stream:
     name: springboot-ocdemo
     tag: latest
-    
 
 service:
   name: springboot-ocdemo
@@ -25,7 +19,7 @@ service:
 
 route:
   enabled: true
-  host: springboot-ocdemo.apps.your-openshift-domain.com
+  host: springboot-app1.apps.your-openshift-domain.com
 
 resources:
   limits:
@@ -54,30 +48,11 @@ image:
   repository: ""
   tag: ""
 
-# Horizontal Pod Autoscaler configuration
 autoscaling:
-  enabled: true  # Set to true to enable HPA
+  enabled: true
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 70
   targetMemoryUtilizationPercentage: 80
-  behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 300
-      policies:
-      - type: Percent
-        value: 10
-        periodSeconds: 60
-    scaleUp:
-      stabilizationWindowSeconds: 0
-      policies:
-      - type: Percent
-        value: 100
-        periodSeconds: 15
-      - type: Pods
-        value: 4
-        periodSeconds: 15
-      selectPolicy: Max
 
-# Replica count (ignored when HPA is enabled)
 replicaCount: 1
