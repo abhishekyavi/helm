@@ -2,6 +2,16 @@
 
 This Helm chart builds and deploys a Spring Boot application to OpenShift using Source-to-Image (S2I) and OpenShift resources.
 
+# Running commands
+
+ helm install springbootoc ./helm
+ helm uninstall springbootoc     
+
+helm install springbootoc ./helm
+
+oc status --suggest 
+
+
 ## Features
 
 - **BuildConfig**: Builds your app from a Git repository using S2I.
