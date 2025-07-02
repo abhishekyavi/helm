@@ -4,7 +4,7 @@ build:
     uri: https://github.com/abhishekyavi/clinicalsapi.git
     ref: main
   strategy: Source
-  outputImageStream: springbootoc2-springboot-image-builder:latest
+  outputImageStream: springboot-image-builder:latest
 
 deployment:
   enabled: true
@@ -31,17 +31,19 @@ resources:
 
 livenessProbe:
   httpGet:
-    path: /actuator/health
+    path: /api/patients
     port: 8080
-  initialDelaySeconds: 60
+  initialDelaySeconds: 30
   periodSeconds: 10
+  timeoutSeconds: 30
 
 readinessProbe:
   httpGet:
-    path: /actuator/health
+    path: /api/patients
     port: 8080
-  initialDelaySeconds: 10
-  periodSeconds: 5
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 30
 
 image:
   pullPolicy: IfNotPresent

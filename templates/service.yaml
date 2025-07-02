@@ -6,7 +6,8 @@ metadata:
     {{- include "springboot-ocdemo.labels" . | nindent 4 }}
 spec:
   selector:
-    app: "{{ include "springboot-ocdemo.name" . }}"
+    app.kubernetes.io/name: "{{ include "springboot-ocdemo.name" . }}"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
   ports:
     - protocol: TCP
       port: {{ .Values.service.port | default 8080 }}

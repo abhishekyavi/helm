@@ -11,11 +11,13 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: "{{ include "springboot-ocdemo.name" . }}"
+      app.kubernetes.io/name: "{{ include "springboot-ocdemo.name" . }}"
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
   template:
     metadata:
       labels:
-        app: "{{ include "springboot-ocdemo.name" . }}"
+        app.kubernetes.io/name: "{{ include "springboot-ocdemo.name" . }}"
+        app.kubernetes.io/instance: "{{ .Release.Name }}"
     spec:
       containers:
         - name: "{{ include "springboot-ocdemo.name" . }}"
