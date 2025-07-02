@@ -109,3 +109,5 @@ helm/
 ---
 
 **For more details, see the comments in each file.**
+- Made chnages in this branch as such any number spring applications can be deployed using the same templates and changeing only the values.yaml files.
+- its working code
